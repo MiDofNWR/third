@@ -13,6 +13,11 @@ using namespace miit::algebra;
 enum class FillChoice { Keyboard = 1, Random, Zero, Constant };
 enum class Action { First = 1, Second, Both };
 
+namespace {
+constexpr char fillMenu[] = "Заполнение:\n";
+constexpr char actionMenu[] = "Выберите преобразование:\n";
+}
+
 /**
  * @brief Считывает значение указанного типа.
  * @tparam T Тип считываемого значения.
@@ -41,7 +46,11 @@ int main() {
         const auto rows = static_cast<std::size_t>(rowCount);
         const auto columns = static_cast<std::size_t>(columnCount);
 
-        std::cout << "Заполнение: 1 — с клавиатуры, 2 — случайными числами, 3 — нулями, 4 — постоянным числом\n";
+        std::cout << fillMenu
+                  << static_cast<int>(FillChoice::Keyboard) << " — с клавиатуры\n"
+                  << static_cast<int>(FillChoice::Random) << " — случайными числами\n"
+                  << static_cast<int>(FillChoice::Zero) << " — нулями\n"
+                  << static_cast<int>(FillChoice::Constant) << " — постоянным числом\n";
         const auto fillChoice = static_cast<FillChoice>(readValue<int>("Выбор: "));
         std::unique_ptr<Generator> generator;
         switch (fillChoice) {
@@ -69,7 +78,10 @@ int main() {
         Matrix<int> original(rows, columns);
         original.fill(*generator);
         std::cout << "Исходная матрица:\n" << original.toString() << '\n';
-        std::cout << "\n1 — первое преобразование, 2 — второе преобразование, 3 — оба преобразования\n";
+        std::cout << '\n' << actionMenu
+                  << static_cast<int>(Action::First) << " — первое преобразование\n"
+                  << static_cast<int>(Action::Second) << " — второе преобразование\n"
+                  << static_cast<int>(Action::Both) << " — оба преобразования\n";
         const auto action = static_cast<Action>(readValue<int>("Действие: "));
         const auto runFirst = [&original]() {
             Task1 task(original);
