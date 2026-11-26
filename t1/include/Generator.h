@@ -6,8 +6,8 @@ namespace miit::algebra {
 class Generator {
 public:
     /** @brief Уничтожает генератор через базовый указатель. */
-    virtual ~Generator();
+    virtual ~Generator() = default;
     /** @brief Получает очередное значение. @return Сгенерированное целое число. */
-    virtual int generate() = 0;
+    virtual int generate() const = 0;
 };
 }
