@@ -8,9 +8,9 @@ namespace miit::algebra {
 class RandomGenerator final : public Generator {
 private:
     /** @brief Движок генерации псевдослучайных чисел. */
-    std::mt19937 engine_;
+    mutable std::mt19937 engine_;
     /** @brief Равномерное распределение значений в выбранном диапазоне. */
-    std::uniform_int_distribution<int> distribution_;
+    mutable std::uniform_int_distribution<int> distribution_;
 public:
     /**
      * @brief Создаёт генератор случайных чисел.
@@ -23,6 +23,6 @@ public:
      * @brief Генерирует случайное число из заданного диапазона.
      * @return Случайное целое число.
      */
-    int generate() override;
+    int generate() const override;
 };
 }
