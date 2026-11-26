@@ -18,7 +18,7 @@ public:
      * @param maximum Верхняя граница диапазона.
      * @throw std::invalid_argument Если minimum больше maximum.
      */
-    RandomGenerator(int minimum, int maximum);
+    RandomGenerator(const int minimum, const int maximum);
     /**
      * @brief Генерирует случайное число из заданного диапазона.
      * @return Случайное целое число.
