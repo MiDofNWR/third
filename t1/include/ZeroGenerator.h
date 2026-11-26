@@ -10,6 +10,6 @@ public:
      * @brief Возвращает ноль.
      * @return Нулевое значение.
      */
-    int generate() override;
+    int generate() const override;
 };
 }
