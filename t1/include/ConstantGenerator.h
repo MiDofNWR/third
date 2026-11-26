@@ -13,7 +13,7 @@ public:
      * @brief Создаёт генератор постоянного значения.
      * @param value Значение для генерации.
      */
-    explicit ConstantGenerator(int value);
+    explicit ConstantGenerator(const int value);
     /**
      * @brief Возвращает сохранённое значение.
      * @return Постоянное целое число.
