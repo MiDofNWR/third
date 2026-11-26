@@ -9,22 +9,16 @@ class Exercise {
 protected:
     /** @brief Копия матрицы, над которой выполняется задание. */
     Matrix<int> matrix_;
-    /** @brief Необязательный генератор для заполнения матрицы. */
-    Generator* generator_;
 public:
     /**
      * @brief Создаёт задание для указанной матрицы.
      * @param matrix Исходная матрица.
-     * @param generator Генератор для заполнения матрицы или nullptr.
      */
-    explicit Exercise(Matrix<int> matrix, Generator* generator = nullptr);
+    explicit Exercise(Matrix<int> matrix);
+    /** @brief Создаёт задание и заполняет матрицу генератором. */
+    explicit Exercise(Matrix<int> matrix, const Generator& generator);
     /** @brief Уничтожает объект задания. */
     virtual ~Exercise();
-    /**
-     * @brief Заполняет матрицу значениями выбранного генератора.
-     * @throw std::logic_error Если генератор не задан.
-     */
-    void fill();
     /** @brief Выполняет преобразование матрицы. */
     virtual void solve() = 0;
     /**
