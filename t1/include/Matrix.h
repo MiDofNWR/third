@@ -123,7 +123,7 @@ public:
      * @brief Заполняет все элементы матрицы значениями генератора.
      * @param generator Генератор очередных значений.
      */
-    void fill(Generator& generator) {
+    void fill(const Generator& generator) {
         for (auto& row : data_) for (auto& value : row) value = static_cast<T>(generator.generate());
     }
 
