@@ -20,6 +20,6 @@ public:
      * @return Считанное целое число.
      * @throw std::runtime_error Если число не удалось прочитать.
      */
-    int generate() override;
+    int generate() const override;
 };
 }
