@@ -9,10 +9,11 @@ long long magnitude(int value) {
     return value < 0 ? -static_cast<long long>(value) : static_cast<long long>(value);
 }
 
-int valueWithMaximumMagnitude(const Matrix<int>& matrix) {
-    int result = matrix[0][0];
+template<typename T>
+T valueWithMaximumMagnitude(const Matrix<T>& matrix) {
+    T result = matrix[0][0];
     for (std::size_t r = 0; r < matrix.rows(); ++r) {
-        for (int value : matrix[r]) if (magnitude(value) > magnitude(result)) result = value;
+        for (const auto& value : matrix[r]) if (magnitude(value) > magnitude(result)) result = value;
     }
     return result;
 }
