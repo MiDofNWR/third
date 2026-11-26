@@ -5,34 +5,26 @@
 #include "Task2.h"
 #include "ZeroGenerator.h"
 #include <iostream>
-#include <limits>
 #include <memory>
 #include <stdexcept>
 #include <string>
 using namespace miit::algebra;
 
 enum class FillChoice { Keyboard = 1, Random, Zero, Constant };
-enum class Action { Exit = 0, First, Second, Both };
+enum class Action { First = 1, Second, Both };
 
 /**
- * @brief Считывает значение указанного типа и повторяет запрос при неверном вводе.
+ * @brief Считывает значение указанного типа.
  * @tparam T Тип считываемого значения.
  * @param prompt Текст приглашения для пользователя.
  * @return Корректно считанное значение.
- * @throw std::runtime_error Если входной поток завершился.
+ * @throw std::runtime_error Если значение не удалось считать.
  */
 template<typename T>
 T readValue(const std::string& prompt) {
-    bool valid = false;
+    std::cout << prompt;
     T value{};
-    while (!valid) {
-        std::cout << prompt;
-        if (std::cin >> value) { valid = true; continue; }
-        if (std::cin.eof()) throw std::runtime_error("Ввод завершён");
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "Некорректное значение. Попробуйте ещё раз.\n";
-    }
+    if (!(std::cin >> value)) throw std::runtime_error("Некорректный ввод");
     return value;
 }
 
@@ -42,10 +34,12 @@ T readValue(const std::string& prompt) {
  */
 int main() {
     try {
-        std::size_t rows = 0U;
-        std::size_t columns = 0U;
-        while (rows == 0U) rows = readValue<std::size_t>("Количество строк (> 0): ");
-        while (columns == 0U) columns = readValue<std::size_t>("Количество столбцов (> 0): ");
+        const auto rowCount = readValue<long long>("Количество строк (> 0): ");
+        const auto columnCount = readValue<long long>("Количество столбцов (> 0): ");
+        if (rowCount <= 0 || columnCount <= 0)
+            throw std::invalid_argument("Размеры матрицы должны быть положительными");
+        const auto rows = static_cast<std::size_t>(rowCount);
+        const auto columns = static_cast<std::size_t>(columnCount);
 
         std::cout << "Заполнение: 1 — с клавиатуры, 2 — случайными числами, 3 — нулями, 4 — постоянным числом\n";
         const auto fillChoice = static_cast<FillChoice>(readValue<int>("Выбор: "));
@@ -75,30 +69,31 @@ int main() {
         Matrix<int> original(rows, columns);
         original.fill(*generator);
         std::cout << "Исходная матрица:\n" << original.toString() << '\n';
-        Action action = Action::First;
-        while (action != Action::Exit) {
-            std::cout << "\n0 — выход, 1 — первое преобразование, 2 — второе преобразование, 3 — оба преобразования\n";
-            action = static_cast<Action>(readValue<int>("Действие: "));
-            switch (action) {
-            case Action::First:
-            case Action::Second:
-            case Action::Both:
-                if (action == Action::First || action == Action::Both) {
-                    Task1 task(original);
-                    task.solve();
-                    std::cout << "Результат задания 1:\n" << task.getMatrix().toString() << '\n';
-                }
-                if (action == Action::Second || action == Action::Both) {
-                    Task2 task(original);
-                    task.solve();
-                    std::cout << "Результат задания 2:\n" << task.getMatrix().toString() << '\n';
-                }
-                break;
-            case Action::Exit:
-                break;
-            default:
-                std::cout << "Неизвестное действие\n";
-            }
+        std::cout << "\n1 — первое преобразование, 2 — второе преобразование, 3 — оба преобразования\n";
+        const auto action = static_cast<Action>(readValue<int>("Действие: "));
+        const auto runFirst = [&original]() {
+            Task1 task(original);
+            task.solve();
+            std::cout << "Результат задания 1:\n" << task.getMatrix().toString() << '\n';
+        };
+        const auto runSecond = [&original]() {
+            Task2 task(original);
+            task.solve();
+            std::cout << "Результат задания 2:\n" << task.getMatrix().toString() << '\n';
+        };
+        switch (action) {
+        case Action::First:
+            runFirst();
+            break;
+        case Action::Second:
+            runSecond();
+            break;
+        case Action::Both:
+            runFirst();
+            runSecond();
+            break;
+        default:
+            throw std::invalid_argument("Неизвестное действие");
         }
     } catch (const std::exception& error) {
         std::cerr << "Ошибка: " << error.what() << '\n';
