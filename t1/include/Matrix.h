@@ -35,6 +35,7 @@ private:
     }
 
 public:
+    using value_type = T;
     /** @brief Создаёт пустую матрицу. */
     Matrix() = default;
     /**
@@ -68,7 +69,7 @@ public:
      * @return Ссылка на выбранную строку.
      */
     std::vector<T>& operator[](std::size_t row) {
-        return data_[row];
+        return data_.at(row);
     }
 
     /**
@@ -77,7 +78,7 @@ public:
      * @return Константная ссылка на выбранную строку.
      */
     const std::vector<T>& operator[](std::size_t row) const {
-        return data_[row];
+        return data_.at(row);
     }
 
     /**
