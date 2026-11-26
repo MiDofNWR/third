@@ -1,12 +1,8 @@
 #include "Exercise.h"
-#include <stdexcept>
 #include <utility>
 namespace miit::algebra {
-Exercise::Exercise(Matrix<int> matrix, Generator* generator) : matrix_(std::move(matrix)), generator_(generator) {}
+Exercise::Exercise(Matrix<int> matrix) : matrix_(std::move(matrix)) {}
+Exercise::Exercise(Matrix<int> matrix, const Generator& generator) : matrix_(std::move(matrix)) { matrix_.fill(generator); }
 Exercise::~Exercise() = default;
-void Exercise::fill() {
-    if (generator_ == nullptr) throw std::logic_error("Для задания не задан генератор");
-    matrix_.fill(*generator_);
-}
 Matrix<int> Exercise::getMatrix() const { return matrix_; }
 }
