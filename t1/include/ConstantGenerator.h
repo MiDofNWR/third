@@ -18,6 +18,6 @@ public:
      * @brief Возвращает сохранённое значение.
      * @return Постоянное целое число.
      */
-    int generate() override;
+    int generate() const override;
 };
 }
