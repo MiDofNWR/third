@@ -16,7 +16,7 @@ namespace miit::algebra
 
     public:
         Matrix() = default;
-        Matrix(int rows, int columns);
+        Matrix(const int rows, const int columns);
         explicit Matrix(std::vector<std::vector<int>> elements);
 
         bool operator==(const Matrix& other) const;
