@@ -34,7 +34,7 @@ namespace miit::algebra
         size_t rowsCount() const;
         size_t columnsCount() const;
         void fill(const Generator& generator);
-        void removeColumn(size_t columnIndex);
+        void removeColumn(const size_t columnIndex);
         std::string toString() const;
 
         friend std::ostream& operator<<(std::ostream& output, const Matrix& matrix);
