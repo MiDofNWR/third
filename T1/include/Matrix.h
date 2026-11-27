@@ -25,7 +25,7 @@ namespace miit::algebra
         Matrix operator-(const Matrix& other) const;
         Matrix operator*(const Matrix& other) const;
 
-        int* operator[](int row);
+        int* operator[](const int row);
         const int* operator[](int row) const;
         int& minimum();
         const int& minimum() const;
